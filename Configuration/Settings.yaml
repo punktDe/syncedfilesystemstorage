@@ -1,10 +1,6 @@
 PunktDe:
   SyncedFileSystemStorage:
-    target:
-#      host: '%env:RESOURCE_SYNC_TARGET_HOST%'
-#      user: '%env:RESOURCE_SYNC_TARGET_USER%'
-
-      host: 'localhost'
-      user: 'www-data'
-
-
+    targets:
+      -
+        host: '%env:RESOURCE_SYNC_TARGET_HOST%'
+        user: '%env:RESOURCE_SYNC_TARGET_USER%'
