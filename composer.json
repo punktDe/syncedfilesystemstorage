@@ -1,0 +1,18 @@
+{
+    "description": "Sync resources to a second server",
+    "type": "neos-package",
+    "name": "punktde/syncedfilesystemstorage",
+    "require": {
+        "neos/neos": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "PunktDe\\SyncedFileSystemStorage\\": "Classes/"
+        }
+    },
+    "extra": {
+        "neos": {
+            "package-key": "PunktDe.SyncedFileSystemStorage"
+        }
+    }
+}

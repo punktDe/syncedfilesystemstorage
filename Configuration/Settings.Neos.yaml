@@ -1,0 +1,6 @@
+#Neos:
+#  Flow:
+#    resource:
+#      storages:
+#        defaultPersistentResourcesStorage:
+#          storage: 'PunktDe\SyncedFileSystemStorage\ResourceManagement\Storage\SyncedFileSystemStorage'
