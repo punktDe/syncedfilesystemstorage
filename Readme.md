@@ -6,9 +6,9 @@ This package takes care of syncing files, handled by the Flow resource managemen
 
 ## Prerequisite
 
-* Rsync is installed on all participating server
+* Rsync is installed on all participating servers
+* The Neos base path is the same on all servers
 * Public key authentication is configured for the user that runs php
-* The Neos base path is the same on all server
 
 ## Installation
 
