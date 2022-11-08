@@ -2,6 +2,7 @@
     "description": "Sync resources to a second server",
     "type": "neos-package",
     "name": "punktde/syncedfilesystemstorage",
+    "license": "MIT",
     "require": {
         "neos/neos": "*"
     },
