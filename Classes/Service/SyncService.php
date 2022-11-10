@@ -39,7 +39,7 @@ class SyncService
                 continue;
             }
 
-            $command = sprintf("rsync -crlEhz %s %s@%s:%s", $resourcePath, $syncTargetConfiguration['user'], $syncTargetConfiguration['host'], $resourcePath . DIRECTORY_SEPARATOR);
+            $command = sprintf("rsync -crlEhz --delete %s %s@%s:%s", $resourcePath . DIRECTORY_SEPARATOR, $syncTargetConfiguration['user'], $syncTargetConfiguration['host'], $resourcePath);
 
             $timeStarted = microtime(true);
             $lastLineReturned = exec($command);
