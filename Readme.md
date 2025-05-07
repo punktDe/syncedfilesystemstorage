@@ -16,4 +16,6 @@ Install the package using
 
     composer require punktde/syncedfilesystemstorage
 
-Configure the target hosts. For the first host just provide the environment variables `RESOURCE_SYNC_TARGET_HOST` and `RESOURCE_SYNC_TARGET_USER`. 
+Configure the target hosts. For the first host just provide the environment variables `RESOURCE_SYNC_TARGET_HOST` and `RESOURCE_SYNC_TARGET_USER`.
+
+It is recommended to limit the sync user to only allow rsync and to set a jail root to the resource directory. In this case, also configure the environment variable `RESOURCE_SYNC_TARGET_ROOT_DIRECTORY` to the jail root directory.

@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace PunktDe\SyncedFileSystemStorage\ResourceManagement\Storage;
 
 /*
- *  (c) 2022 punkt.de GmbH - Karlsruhe, Germany - http://punkt.de
+ *  (c) 2022-2025 punkt.de GmbH - Karlsruhe, Germany - http://punkt.de
  *  All rights reserved.
  */
 
@@ -17,11 +17,8 @@ use PunktDe\SyncedFileSystemStorage\Service\SyncService;
 class SyncedFileSystemStorage extends WritableFileSystemStorage
 {
 
-    /**
-     * @Flow\Inject
-     * @var SyncService
-     */
-    protected $syncService;
+    #[Flow\Inject]
+    protected SyncService $syncService;
 
     public function importResource($source, $collectionName)
     {

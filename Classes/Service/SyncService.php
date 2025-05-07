@@ -14,38 +14,40 @@ use Psr\Log\LoggerInterface;
 
 class SyncService
 {
+    #[Flow\InjectConfiguration(path: 'targets', package: 'PunktDe.SyncedFileSystemStorage')]
+    protected array $syncTargetConfiguration;
 
-    /**
-     * @Flow\InjectConfiguration(package="PunktDe.SyncedFileSystemStorage", path="targets")
-     * @var array
-     */
-    protected $syncTargetConfiguration;
+    #[Flow\Inject]
+    protected LoggerInterface $logger;
 
-    /**
-     * @Flow\Inject
-     * @var LoggerInterface
-     */
-    protected $logger;
-
-    public function syncResourcePath(string $resourcePath): void
+    public function syncResourcePath(string $sourcePath): void
     {
 
-        $resourcePath = rtrim($resourcePath, DIRECTORY_SEPARATOR);
+        $sourcePath = rtrim($sourcePath, DIRECTORY_SEPARATOR);
+        $targetPath = realpath($sourcePath);
 
         foreach ($this->syncTargetConfiguration as $key => $syncTargetConfiguration) {
+
+            if (!empty(trim($syncTargetConfiguration['rootDirectory'] ?? ''))) {
+                if (str_starts_with($targetPath, $syncTargetConfiguration['rootDirectory'])) {
+                    $targetPath = substr($targetPath, strlen($syncTargetConfiguration['rootDirectory']));
+                } else {
+                    $this->logger->warning(sprintf('Root directory was set to "%s", but this path does not match the target path "%s"', $syncTargetConfiguration['rootDirectory'], $targetPath));
+                }
+            }
 
             if (!isset($syncTargetConfiguration['user'], $syncTargetConfiguration['host']) || empty($syncTargetConfiguration['user']) || empty($syncTargetConfiguration['host'])) {
                 $this->logger->error('SyncedFileSystemStorage is used, but either host or user are not given for configured target #' . $key, LogEnvironment::fromMethodName(__METHOD__));
                 continue;
             }
 
-            $command = sprintf("rsync -crlEhz --delete %s %s@%s:%s", $resourcePath . DIRECTORY_SEPARATOR, $syncTargetConfiguration['user'], $syncTargetConfiguration['host'], $resourcePath);
+            $command = sprintf("rsync -crlEhz --delete %s %s@%s:%s", $sourcePath . DIRECTORY_SEPARATOR, $syncTargetConfiguration['user'], $syncTargetConfiguration['host'], $targetPath);
 
             $timeStarted = microtime(true);
             $lastLineReturned = exec($command);
             $syncTime = number_format((microtime(true) - $timeStarted) * 1000, 2);
 
-            $this->logger->info(sprintf('Synced persistent resource "%s" to host "%s". Took %s ms. Output "%s"', $resourcePath, $syncTargetConfiguration['host'], $syncTime, $lastLineReturned), LogEnvironment::fromMethodName(__METHOD__));
+            $this->logger->info(sprintf('Synced persistent resource "%s" to host "%s". Took %s ms. Output "%s"', $sourcePath, $syncTargetConfiguration['host'], $syncTime, $lastLineReturned), LogEnvironment::fromMethodName(__METHOD__));
         }
     }
 }
