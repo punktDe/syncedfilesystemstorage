@@ -4,3 +4,4 @@ PunktDe:
       -
         host: '%env:RESOURCE_SYNC_TARGET_HOST%'
         user: '%env:RESOURCE_SYNC_TARGET_USER%'
+        rootDirectory: '%env:RESOURCE_SYNC_TARGET_ROOT_DIRECTORY'
