@@ -24,7 +24,7 @@ class SyncService
     {
 
         $sourcePath = rtrim($sourcePath, DIRECTORY_SEPARATOR);
-        $targetPath = $sourcePath;
+        $targetPath = realpath($sourcePath);
 
         foreach ($this->syncTargetConfiguration as $key => $syncTargetConfiguration) {
 
